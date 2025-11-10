@@ -233,86 +233,73 @@
             margin-bottom: 1rem;
         }
 
-        /* Menu Carousel */
+        /* Menu Carousel (responsive, 6 originals + 6 duplicates for seamless loop) */
         .menu {
-            background: #1a1a1a;
-            overflow: hidden; /* Hide overflow for carousel */
-        }
-
-        .dishes-carousel {
-            overflow: hidden;
-            position: relative;
-        }
-
-        .dishes-track {
-            display: flex;
-            transition: transform 0.3s ease;
-            animation: scroll 40s linear infinite; /* Auto-scroll: 40s for full loop, adjust speed as needed */
-        }
-
-        .dishes-track:hover {
-            animation-play-state: paused; /* Pause on hover */
-        }
-
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(calc(-100% / 2)); } /* For duplicated items, shift by half */
-        }
-
-        .dish {
-            position: relative;
-            overflow: hidden;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            transition: transform 0.3s ease;
-            flex: 0 0 250px; /* Fixed width for carousel */
-            margin-right: 2rem; /* Gap between items */
-        }
-
-        .dish:last-child {
-            margin-right: 0;
-        }
-
-        .dish:hover {
-            transform: scale(1.05);
-            animation-play-state: paused; /* Pause carousel on hover */
-        }
-
-        .dish img {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .dish:hover img {
-            transform: scale(1.1);
-        }
-
-        .dish-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            background: #000; /* dark theme */
             color: #fff;
-            padding: 2rem 1rem 1rem;
-            transform: translateY(100%);
-            transition: transform 0.3s ease;
         }
 
-        .dish:hover .dish-overlay {
-            transform: translateY(0);
+        :root {
+            --accent: #ff3333;
         }
 
-        .dish-overlay h3 {
-            font-family: 'PT Serif', serif;
-            font-size: 1.5rem;
+        .menu .carousel-viewport {
+            overflow: hidden;
+            width: 100%;
         }
 
-        /* Duplicate items for seamless loop */
-        .dishes-duplicate {
+        .menu .carousel-track {
             display: flex;
+            flex-wrap: nowrap;
+            will-change: transform;
+            transition: transform 400ms ease-in-out;
+        }
+
+        .menu .carousel-item {
+            flex: 0 0 100%; /* mobile default: 1 item */
+            box-sizing: border-box;
+            padding: 12px;
+        }
+
+        .menu .card {
+            background: #0b0b0b;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+        }
+
+        .menu .card img {
+            display: block;
+            width: 100%;
+            height: 220px; /* requested */
+            object-fit: cover;
+        }
+
+        .menu .card .info {
+            padding: 12px 14px;
+        }
+
+        .menu .card h3 {
+            margin: 0 0 6px 0;
+            font-family: 'PT Serif', serif;
+            color: #fff;
+            font-size: 1.1rem;
+        }
+
+        .menu .card p.price {
+            margin: 0;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* Tablet: 2 items visible */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .menu .carousel-item { flex: 0 0 50%; }
+        }
+
+        /* Desktop: 3 items visible */
+        @media (min-width: 1025px) {
+            .menu .carousel-item { flex: 0 0 33.3333%; }
         }
 
         /* About */
@@ -507,18 +494,16 @@
             }
 
             .dish {
-                flex: 0 0 280px; /* Adjust for mobile */
-                margin-right: 1rem;
+                flex: 0 0 280px;
+            }
+
+            .dishes-track {
+                gap: 1rem;
             }
 
             .footer-links {
                 flex-direction: column;
                 gap: 1rem;
-            }
-
-            @keyframes scroll {
-                0% { transform: translateX(0); }
-                100% { transform: translateX(calc(-100% / 2)); }
             }
         }
 
@@ -602,92 +587,119 @@
     <section id="menu" class="menu">
         <div class="container">
             <h2 class="section-title fade-in">Our Menu</h2>
-            <div class="dishes-carousel fade-in">
-                <div class="dishes-track">
-                    <!-- Original items -->
-                    <div class="dish">
-                        <img src="https://images.unsplash.com/photo-1603360946369-dc9bb6258143?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Grilled Steak" loading="lazy">
-                        <div class="dish-overlay">
-                            <h3>Grilled Prime Steak</h3>
-                            <p>KSh 3,000</p>
+
+            <!-- Carousel: 6 originals followed by 6 duplicates for seamless looping -->
+            <div class="carousel-viewport fade-in">
+                <div class="carousel-track">
+                    <!-- Originals (6 items) -->
+                    <div class="carousel-item">
+                        <div class="card">
+                            <img src="https://images.unsplash.com/photo-1603360946369-dc9bb6258143?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Grilled Steak" loading="lazy">
+                            <div class="info">
+                                <h3>Grilled Prime Steak</h3>
+                                <p class="price">KSh 3,000</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="dish">
-                        <img src="https://stemandspoon.com/wp-content/uploads/2022/11/seafood-charcuterie-board-featured-720x720.jpg" alt="Seafood Platter" loading="lazy">
-                        <div class="dish-overlay">
-                            <h3>Seafood Platter</h3>
-                            <p>KSh 3,500</p>
+                    <div class="carousel-item">
+                        <div class="card">
+                            <img src="https://stemandspoon.com/wp-content/uploads/2022/11/seafood-charcuterie-board-featured-720x720.jpg" alt="Seafood Platter" loading="lazy">
+                            <div class="info">
+                                <h3>Seafood Platter</h3>
+                                <p class="price">KSh 3,500</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="dish">
-                        <img src="https://feelgoodfoodie.net/wp-content/uploads/2023/03/Everyday-Garden-Salad-07.jpg" alt="Fresh Garden Salad" loading="lazy">
-                        <div class="dish-overlay">
-                            <h3>Fresh Garden Salad</h3>
-                            <p>KSh 1,200</p>
+                    <div class="carousel-item">
+                        <div class="card">
+                            <img src="https://feelgoodfoodie.net/wp-content/uploads/2023/03/Everyday-Garden-Salad-07.jpg" alt="Fresh Garden Salad" loading="lazy">
+                            <div class="info">
+                                <h3>Fresh Garden Salad</h3>
+                                <p class="price">KSh 1,200</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="dish">
-                        <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Chocolate Lava Cake" loading="lazy">
-                        <div class="dish-overlay">
-                            <h3>Chocolate Lava Cake</h3>
-                            <p>KSh 800</p>
+                    <div class="carousel-item">
+                        <div class="card">
+                            <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Chocolate Lava Cake" loading="lazy">
+                            <div class="info">
+                                <h3>Chocolate Lava Cake</h3>
+                                <p class="price">KSh 800</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="dish">
-                        <img src="https://www.seriouseats.com/thmb/WoGZrLtBwKNxCy6h62fM9ht-Lus=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/20250212-SEA-LobsterThermidor-AmandaSuarez-hero-1d4d6f1652e649b1a883fffb54dd2c2e.jpg" alt="Lobster Thermidor" loading="lazy">
-                        <div class="dish-overlay">
-                            <h3>Lobster Thermidor</h3>
-                            <p>KSh 4,500</p>
+                    <div class="carousel-item">
+                        <div class="card">
+                            <img src="https://www.seriouseats.com/thmb/WoGZrLtBwKNxCy6h62fM9ht-Lus=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/20250212-SEA-LobsterThermidor-AmandaSuarez-hero-1d4d6f1652e649b1a883fffb54dd2c2e.jpg" alt="Lobster Thermidor" loading="lazy">
+                            <div class="info">
+                                <h3>Lobster Thermidor</h3>
+                                <p class="price">KSh 4,500</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="dish">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYtpxV9ij8rx-Q8A21NTqOvMraoYdTD6GxLw&s" alt="Passion Fruit Cheesecake" loading="lazy">
-                        <div class="dish-overlay">
-                            <h3>Passion Fruit Cheesecake</h3>
-                            <p>KSh 900</p>
+                    <div class="carousel-item">
+                        <div class="card">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYtpxV9ij8rx-Q8A21NTqOvMraoYdTD6GxLw&s" alt="Passion Fruit Cheesecake" loading="lazy">
+                            <div class="info">
+                                <h3>Passion Fruit Cheesecake</h3>
+                                <p class="price">KSh 900</p>
+                            </div>
                         </div>
                     </div>
-                    <!-- Duplicated items for seamless loop -->
-                    <div class="dish">
-                        <img src="https://images.unsplash.com/photo-1603360946369-dc9bb6258143?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Grilled Steak" loading="lazy">
-                        <div class="dish-overlay">
-                            <h3>Grilled Prime Steak</h3>
-                            <p>KSh 3,000</p>
+
+                    <!-- Duplicates (same 6 items) -->
+                    <div class="carousel-item">
+                        <div class="card">
+                            <img src="https://images.unsplash.com/photo-1603360946369-dc9bb6258143?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Grilled Steak" loading="lazy">
+                            <div class="info">
+                                <h3>Grilled Prime Steak</h3>
+                                <p class="price">KSh 3,000</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="dish">
-                        <img src="https://stemandspoon.com/wp-content/uploads/2022/11/seafood-charcuterie-board-featured-720x720.jpg" alt="Seafood Platter" loading="lazy">
-                        <div class="dish-overlay">
-                            <h3>Seafood Platter</h3>
-                            <p>KSh 3,500</p>
+                    <div class="carousel-item">
+                        <div class="card">
+                            <img src="https://stemandspoon.com/wp-content/uploads/2022/11/seafood-charcuterie-board-featured-720x720.jpg" alt="Seafood Platter" loading="lazy">
+                            <div class="info">
+                                <h3>Seafood Platter</h3>
+                                <p class="price">KSh 3,500</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="dish">
-                        <img src="https://feelgoodfoodie.net/wp-content/uploads/2023/03/Everyday-Garden-Salad-07.jpg" alt="Fresh Garden Salad" loading="lazy">
-                        <div class="dish-overlay">
-                            <h3>Fresh Garden Salad</h3>
-                            <p>KSh 1,200</p>
+                    <div class="carousel-item">
+                        <div class="card">
+                            <img src="https://feelgoodfoodie.net/wp-content/uploads/2023/03/Everyday-Garden-Salad-07.jpg" alt="Fresh Garden Salad" loading="lazy">
+                            <div class="info">
+                                <h3>Fresh Garden Salad</h3>
+                                <p class="price">KSh 1,200</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="dish">
-                        <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Chocolate Lava Cake" loading="lazy">
-                        <div class="dish-overlay">
-                            <h3>Chocolate Lava Cake</h3>
-                            <p>KSh 800</p>
+                    <div class="carousel-item">
+                        <div class="card">
+                            <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Chocolate Lava Cake" loading="lazy">
+                            <div class="info">
+                                <h3>Chocolate Lava Cake</h3>
+                                <p class="price">KSh 800</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="dish">
-                        <img src="https://www.seriouseats.com/thmb/WoGZrLtBwKNxCy6h62fM9ht-Lus=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/20250212-SEA-LobsterThermidor-AmandaSuarez-hero-1d4d6f1652e649b1a883fffb54dd2c2e.jpg" alt="Lobster Thermidor" loading="lazy">
-                        <div class="dish-overlay">
-                            <h3>Lobster Thermidor</h3>
-                            <p>KSh 4,500</p>
+                    <div class="carousel-item">
+                        <div class="card">
+                            <img src="https://www.seriouseats.com/thmb/WoGZrLtBwKNxCy6h62fM9ht-Lus=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/20250212-SEA-LobsterThermidor-AmandaSuarez-hero-1d4d6f1652e649b1a883fffb54dd2c2e.jpg" alt="Lobster Thermidor" loading="lazy">
+                            <div class="info">
+                                <h3>Lobster Thermidor</h3>
+                                <p class="price">KSh 4,500</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="dish">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYtpxV9ij8rx-Q8A21NTqOvMraoYdTD6GxLw&s" alt="Passion Fruit Cheesecake" loading="lazy">
-                        <div class="dish-overlay">
-                            <h3>Passion Fruit Cheesecake</h3>
-                            <p>KSh 900</p>
+                    <div class="carousel-item">
+                        <div class="card">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYtpxV9ij8rx-Q8A21NTqOvMraoYdTD6GxLw&s" alt="Passion Fruit Cheesecake" loading="lazy">
+                            <div class="info">
+                                <h3>Passion Fruit Cheesecake</h3>
+                                <p class="price">KSh 900</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -885,6 +897,125 @@
                 img.loading = 'lazy';
             });
         }
+
+        // Carousel: transform-based infinite loop with 6 originals + 6 duplicates
+        (function() {
+            const track = document.querySelector('.carousel-track');
+            if (!track) return;
+
+            const items = Array.from(track.querySelectorAll('.carousel-item'));
+            const ORIGINAL_COUNT = 6; // as requested: 6 originals duplicated to 12 total
+            const TRANS_MS = 400; // 400ms
+            const AUTOPLAY_MS = 4000; // 4s
+
+            let index = 0; // current logical index, 0..ORIGINAL_COUNT (allowed to hit ORIGINAL_COUNT which is duplicate of 0)
+            let itemWidth = 0;
+            let autoplayTimer = null;
+            let isDragging = false;
+            let startX = 0;
+            let startTranslate = 0;
+            let currentTranslate = 0;
+
+            function setTransition(enabled) {
+                track.style.transition = enabled ? `transform ${TRANS_MS}ms ease-in-out` : 'none';
+            }
+
+            function setTranslate(px) {
+                currentTranslate = px;
+                track.style.transform = `translateX(${px}px)`;
+            }
+
+            function updateSizes() {
+                const first = items[0];
+                if (!first) return;
+                itemWidth = first.getBoundingClientRect().width;
+                // ensure starting position
+                setTransition(false);
+                setTranslate(-index * itemWidth);
+            }
+
+            function goTo(i) {
+                index = i;
+                setTransition(true);
+                setTranslate(-index * itemWidth);
+            }
+
+            function next() {
+                goTo(index + 1);
+            }
+
+            // when reaching the duplicate (index === ORIGINAL_COUNT) instantly reset to start (index 0) without noticeable jump
+            track.addEventListener('transitionend', () => {
+                if (index === ORIGINAL_COUNT) {
+                    // disable transition and snap back to original start
+                    setTransition(false);
+                    index = 0;
+                    setTranslate(0);
+                    // force reflow then re-enable transition for future moves
+                    // eslint-disable-next-line no-unused-expressions
+                    track.offsetHeight;
+                    setTransition(true);
+                }
+            });
+
+            function startAutoplay() {
+                stopAutoplay();
+                autoplayTimer = setInterval(() => {
+                    if (!isDragging) next();
+                }, AUTOPLAY_MS);
+            }
+
+            function stopAutoplay() {
+                if (autoplayTimer) { clearInterval(autoplayTimer); autoplayTimer = null; }
+            }
+
+            // Pointer drag for mouse & touch
+            track.addEventListener('pointerdown', (e) => {
+                isDragging = true;
+                startX = e.clientX;
+                startTranslate = currentTranslate;
+                setTransition(false);
+                stopAutoplay();
+                track.setPointerCapture(e.pointerId);
+            });
+
+            track.addEventListener('pointermove', (e) => {
+                if (!isDragging) return;
+                const dx = e.clientX - startX;
+                setTranslate(startTranslate + dx);
+            });
+
+            function endDrag(e) {
+                if (!isDragging) return;
+                isDragging = false;
+                try { track.releasePointerCapture(e.pointerId); } catch (err) {}
+
+                // settle to nearest index
+                const moved = -currentTranslate;
+                let newIndex = Math.round(moved / itemWidth);
+                // clamp 0..ORIGINAL_COUNT
+                newIndex = Math.max(0, Math.min(newIndex, ORIGINAL_COUNT));
+                goTo(newIndex);
+                // resume autoplay after delay
+                setTimeout(() => { if (!isDragging) startAutoplay(); }, AUTOPLAY_MS);
+            }
+
+            track.addEventListener('pointerup', endDrag);
+            track.addEventListener('pointercancel', endDrag);
+            track.addEventListener('mouseleave', (e) => { if (isDragging) endDrag(e); });
+
+            // pause on hover/enter
+            track.addEventListener('mouseenter', () => { stopAutoplay(); });
+            track.addEventListener('mouseleave', () => { if (!isDragging) startAutoplay(); });
+
+            // window events
+            window.addEventListener('resize', () => { updateSizes(); });
+            window.addEventListener('load', () => { updateSizes(); startAutoplay(); });
+
+            // initial state
+            setTransition(false);
+            setTranslate(0);
+        })();
 
         // End of script
     </script>
